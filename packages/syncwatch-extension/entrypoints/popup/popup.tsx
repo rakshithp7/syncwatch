@@ -5,7 +5,16 @@ import '@/css/theme.css';
 import '@gravity-ui/uikit/styles/styles.css';
 
 import { RuntimeMessage, RuntimeMessageName } from '@/types/types';
-import { Button, Flex, Link, Text, TextInput, ThemeProvider, spacing } from '@gravity-ui/uikit';
+import {
+  Button,
+  Flex,
+  Link,
+  Switch,
+  Text,
+  TextInput,
+  ThemeProvider,
+  spacing,
+} from '@gravity-ui/uikit';
 import type { Share, User, UserList } from 'syncwatch-types';
 
 const typesOfData = [
@@ -34,6 +43,9 @@ function Popup() {
   const [share, setShare] = useState<Share | undefined>(undefined);
   const [user, setUser] = useState<User | undefined>(undefined);
   const [users, setUsers] = useState<UserList>([]);
+  const [autoFollow, setAutoFollow] = useState(false);
+  const [broadcastMode, setBroadcastMode] = useState(false);
+  const [showSecurityWarning, setShowSecurityWarning] = useState(false);
 
   const isConnected = connectButtonValue === browser.i18n.getMessage('popup_button_disconnect');
 
@@ -93,10 +105,62 @@ function Popup() {
 
     for (const val of typesOfData) getData(val);
 
+    browser.storage.sync.get(['autoFollow', 'broadcastMode'], (result) => {
+      if (result.autoFollow !== undefined) setAutoFollow(result.autoFollow);
+      if (result.broadcastMode !== undefined) setBroadcastMode(result.broadcastMode);
+    });
+
     return () => {
       browser.runtime.onMessage.removeListener(onRuntimeMessage);
     };
   }, []);
+
+  const handleAutoFollowChange = (checked: boolean) => {
+    if (checked) {
+      setShowSecurityWarning(true);
+    } else {
+      setAutoFollow(false);
+      browser.storage.sync.set({ autoFollow: false });
+    }
+  };
+
+  const handleBroadcastModeChange = (checked: boolean) => {
+    setBroadcastMode(checked);
+    browser.storage.sync.set({ broadcastMode: checked });
+  };
+
+  if (showSecurityWarning) {
+    return (
+      <Flex direction={'column'} width={'240px'} gap={'4'} data-testId="screenshot">
+        <Flex justifyContent={'center'}>
+          <Text variant="header-2">Security Warning</Text>
+        </Flex>
+        <Text variant="body-1">
+          Enabling "Auto-follow" allows the room to control your browser navigation.
+          <br />
+          <br />
+          Only enable this in trusted rooms. Malicious users could redirect you to phishing or
+          malware sites.
+        </Text>
+        <Flex gap={2} justifyContent="space-between">
+          <Button width="max" view="outlined" onClick={() => setShowSecurityWarning(false)}>
+            Disagree
+          </Button>
+          <Button
+            width="max"
+            view="action"
+            onClick={() => {
+              setShowSecurityWarning(false);
+              setAutoFollow(true);
+              browser.storage.sync.set({ autoFollow: true });
+            }}
+          >
+            Agree
+          </Button>
+        </Flex>
+      </Flex>
+    );
+  }
 
   return (
     <Flex direction={'column'} width={'240px'} gap={'2'} data-testId="screenshot">
@@ -118,6 +182,16 @@ function Popup() {
         id="input-room"
       />
       {connectionError && <Text color="danger-heavy">{connectionError}</Text>}
+      <Flex direction="column" gap={2}>
+        <Flex alignItems="center" gap={2} justifyContent="space-between">
+          <Text variant="body-1">Auto-follow shared URLs</Text>
+          <Switch checked={autoFollow} onUpdate={handleAutoFollowChange} />
+        </Flex>
+        <Flex alignItems="center" gap={2} justifyContent="space-between">
+          <Text variant="body-1">Broadcast my URL changes</Text>
+          <Switch checked={broadcastMode} onUpdate={handleBroadcastModeChange} />
+        </Flex>
+      </Flex>
       {isConnected && (
         <>
           {

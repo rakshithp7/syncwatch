@@ -19,6 +19,10 @@ export default defineBackground(() => {
   const isFirefox = import.meta.env.FIREFOX;
 
   const storageUserShape = { room: null, name: null } as const;
+  const storageSettingsShape = {
+    autoFollow: false,
+    broadcastMode: false,
+  } as const;
 
   const defaultUrl = 'https://server.syncwatch.space/';
 
@@ -33,6 +37,9 @@ export default defineBackground(() => {
   let syncTab: ChromeTab | undefined;
 
   let share: Share | undefined;
+
+  let autoFollow = false;
+  let broadcastMode = false;
 
   let connectionUrl = defaultUrl;
 
@@ -72,6 +79,13 @@ export default defineBackground(() => {
       } else {
         connectionUrl = obj.connectionUrl;
       }
+    });
+  }
+
+  function initSettings() {
+    browser.storage.sync.get(storageSettingsShape, (result) => {
+      if (result.autoFollow !== undefined) autoFollow = result.autoFollow;
+      if (result.broadcastMode !== undefined) broadcastMode = result.broadcastMode;
     });
   }
 
@@ -283,10 +297,24 @@ export default defineBackground(() => {
 
     socket.on('share', (msg) => {
       if (!share || share.url !== msg.url) {
-        onShareNotification(msg);
+        if (autoFollow) {
+          if (syncTab) {
+            browser.tabs.update(syncTab.id, { url: msg.url });
+          } else {
+            openVideo(msg.url);
+          }
+        } else {
+          onShareNotification(msg);
+        }
       }
       if (share && share.url !== msg.url) {
-        syncTab = undefined;
+        // If we auto-followed, syncTab remains valid (just updated)
+        // If we didn't, we leave syncTab as is until they click the notification?
+        // Original logic: syncTab = undefined;
+        // If we update the tab, it's still the syncTab.
+        if (!autoFollow) {
+          syncTab = undefined;
+        }
       }
       setShare(msg);
     });
@@ -316,6 +344,12 @@ export default defineBackground(() => {
       if (share) {
         if (tab.url === share.url) {
           setSyncTab(tab);
+        } else if (broadcastMode && syncTab && tab.id === syncTab.id) {
+          // If we are broadcasting, and the syncTab has navigated to a NEW url (not the shared one)
+          // We should share it.
+          if (isTabPropertiesPresent(tab)) {
+            shareVideoLink(tab);
+          }
         }
       }
     }
@@ -331,6 +365,12 @@ export default defineBackground(() => {
         toInitialState();
         initSockets();
       }
+    }
+    if (changes.autoFollow?.newValue !== undefined) {
+      autoFollow = changes.autoFollow.newValue;
+    }
+    if (changes.broadcastMode?.newValue !== undefined) {
+      broadcastMode = changes.broadcastMode.newValue;
     }
   });
 
@@ -412,4 +452,5 @@ export default defineBackground(() => {
   );
 
   initConnectionUrl();
+  initSettings();
 });
