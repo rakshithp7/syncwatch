@@ -9,7 +9,9 @@
   "popup_button_share": { "message": "поделиться видео" },
   "popup_status": { "message": "статус" },
   "popup_usersInRoom": { "message": "Пользователи в комнате" },
-  "notification_interact_title": { "message": "Кликните куда-нибудь на страничке" },
+  "notification_interact_title": {
+    "message": "Кликните куда-нибудь на страничке"
+  },
   "notification_interact_message": { "message": "Например, нажмите на видео" },
   "notification_interact_button": { "message": "Подробнее" },
   "notification_shared_title": { "message": "поделился видео" },
@@ -30,10 +32,26 @@
   "socket_event_reconnect_failed": { "message": "переподключиться не удалось" },
   "socket_error_write_name": { "message": "Напишите своё имя" },
   "socket_error_write_room": { "message": "Напишите название комнаты" },
-  "socket_error_name_length": { "message": "Длина имени должна быть от 2 до 24" },
-  "socket_error_room_length": { "message": "Длина названия комнаты должна быть от 2 до 24" },
+  "socket_error_name_length": {
+    "message": "Длина имени должна быть от 2 до 24"
+  },
+  "socket_error_room_length": {
+    "message": "Длина названия комнаты должна быть от 2 до 24"
+  },
   "socket_error_too_many_requests": { "message": "Слишком много запросов" },
   "options_button_save": { "message": "Сохранить" },
   "options_saved": { "message": "Настройки сохранены" },
-  "options_server": { "message": "Сервер" }
+  "options_server": { "message": "Сервер" },
+  "popup_header_title": { "message": "syncwatch" },
+  "popup_auto_follow": { "message": "Автоматически переходить по ссылкам" },
+  "popup_broadcast_mode": { "message": "Транслировать мои изменения URL" },
+  "popup_security_warning_title": { "message": "Предупреждение безопасности" },
+  "popup_security_warning_text_1": {
+    "message": "Включение «Автоматического следования» разрешает комнате управлять вашей навигацией."
+  },
+  "popup_security_warning_text_2": {
+    "message": "Включайте только в доверенных комнатах. Злоумышленники могут перенаправить вас на фишинговые или вредоносные сайты."
+  },
+  "popup_button_disagree": { "message": "Отказаться" },
+  "popup_button_agree": { "message": "Согласиться" }
 }

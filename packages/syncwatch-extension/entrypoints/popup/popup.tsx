@@ -133,18 +133,17 @@ function Popup() {
     return (
       <Flex direction={'column'} width={'240px'} gap={'4'} data-testId="screenshot">
         <Flex justifyContent={'center'}>
-          <Text variant="header-2">Security Warning</Text>
+          <Text variant="header-2">{browser.i18n.getMessage('popup_security_warning_title')}</Text>
         </Flex>
         <Text variant="body-1">
-          Enabling "Auto-follow" allows the room to control your browser navigation.
+          {browser.i18n.getMessage('popup_security_warning_text_1')}
           <br />
           <br />
-          Only enable this in trusted rooms. Malicious users could redirect you to phishing or
-          malware sites.
+          {browser.i18n.getMessage('popup_security_warning_text_2')}
         </Text>
         <Flex gap={2} justifyContent="space-between">
           <Button width="max" view="outlined" onClick={() => setShowSecurityWarning(false)}>
-            Disagree
+            {browser.i18n.getMessage('popup_button_disagree')}
           </Button>
           <Button
             width="max"
@@ -155,7 +154,7 @@ function Popup() {
               browser.storage.sync.set({ autoFollow: true });
             }}
           >
-            Agree
+            {browser.i18n.getMessage('popup_button_agree')}
           </Button>
         </Flex>
       </Flex>
@@ -165,7 +164,7 @@ function Popup() {
   return (
     <Flex direction={'column'} width={'240px'} gap={'2'} data-testId="screenshot">
       <Flex justifyContent={'center'}>
-        <Text variant="header-2">syncwatch</Text>
+        <Text variant="header-2">{browser.i18n.getMessage('popup_header_title')}</Text>
       </Flex>
       <TextInput
         name="name"
@@ -184,11 +183,11 @@ function Popup() {
       {connectionError && <Text color="danger-heavy">{connectionError}</Text>}
       <Flex direction="column" gap={2}>
         <Flex alignItems="center" gap={2} justifyContent="space-between">
-          <Text variant="body-1">Auto-follow shared URLs</Text>
+          <Text variant="body-1">{browser.i18n.getMessage('popup_auto_follow')}</Text>
           <Switch checked={autoFollow} onUpdate={handleAutoFollowChange} />
         </Flex>
         <Flex alignItems="center" gap={2} justifyContent="space-between">
-          <Text variant="body-1">Broadcast my URL changes</Text>
+          <Text variant="body-1">{browser.i18n.getMessage('popup_broadcast_mode')}</Text>
           <Switch checked={broadcastMode} onUpdate={handleBroadcastModeChange} />
         </Flex>
       </Flex>

@@ -27,15 +27,31 @@
   "socket_event_reconnect": { "message": "yeniden bağlan" },
   "socket_event_reconnecting": { "message": "yeniden bağlanılıyor" },
   "socket_event_reconnect_error": { "message": "yeniden bağlanma hatası" },
-  "socket_event_reconnect_failed": { "message": "yeniden bağlanma başarısız oldu" },
+  "socket_event_reconnect_failed": {
+    "message": "yeniden bağlanma başarısız oldu"
+  },
   "socket_error_write_name": { "message": "İsminizi yazın" },
   "socket_error_write_room": { "message": "Oda ismini yazın" },
-  "socket_error_name_length": { "message": "İsim uzunluğu 2 ile 24  karakter arasında olmalıdır" },
+  "socket_error_name_length": {
+    "message": "İsim uzunluğu 2 ile 24  karakter arasında olmalıdır"
+  },
   "socket_error_room_length": {
     "message": "oda ismi uzunluğu 2 ile 24  karakter arasında olmalıdır"
   },
   "socket_error_too_many_requests": { "message": "Çok fazla istek" },
   "options_button_save": { "message": "Kaydet" },
   "options_saved": { "message": "Seçenekler kaydedildi" },
-  "options_server": { "message": "Sunucu" }
+  "options_server": { "message": "Sunucu" },
+  "popup_header_title": { "message": "syncwatch" },
+  "popup_auto_follow": { "message": "Paylaşılan URL'leri otomatik takip et" },
+  "popup_broadcast_mode": { "message": "URL değişikliklerimi yayınla" },
+  "popup_security_warning_title": { "message": "Güvenlik Uyarısı" },
+  "popup_security_warning_text_1": {
+    "message": "\"Otomatik Takip\" özelliğini açmak, odanın tarayıcı gezintinizi kontrol etmesine izin verir."
+  },
+  "popup_security_warning_text_2": {
+    "message": "Bunu yalnızca güvenilir odalarda etkinleştirin. Kötü niyetli kullanıcılar sizi kimlik avı veya kötü amaçlı yazılım sitelerine yönlendirebilir."
+  },
+  "popup_button_disagree": { "message": "Reddet" },
+  "popup_button_agree": { "message": "Kabul Et" }
 }
