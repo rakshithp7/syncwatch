@@ -48,7 +48,16 @@
     "message": "Enabling \"Auto-follow\" allows the room to control your browser navigation."
   },
   "popup_security_warning_text_2": {
-    "message": "Only enable this in trusted rooms. Malicious users could redirect you to phishing or malware sites."
+    "message": "Only enable this in trusted rooms."
+  },
+  "popup_security_warning_text_3": {
+    "message": "Auto-follow will only navigate within the same domain."
+  },
+  "popup_security_warning_text_3_prefix": {
+    "message": "Auto-follow will only navigate within "
+  },
+  "popup_security_warning_text_3_suffix": {
+    "message": "."
   },
   "popup_button_disagree": { "message": "Disagree" },
   "popup_button_agree": { "message": "Agree" }

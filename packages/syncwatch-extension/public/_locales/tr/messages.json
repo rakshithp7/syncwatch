@@ -50,7 +50,16 @@
     "message": "\"Otomatik Takip\" özelliğini açmak, odanın tarayıcı gezintinizi kontrol etmesine izin verir."
   },
   "popup_security_warning_text_2": {
-    "message": "Bunu yalnızca güvenilir odalarda etkinleştirin. Kötü niyetli kullanıcılar sizi kimlik avı veya kötü amaçlı yazılım sitelerine yönlendirebilir."
+    "message": "Bunu yalnızca güvenilir odalarda etkinleştirin."
+  },
+  "popup_security_warning_text_3": {
+    "message": "Otomatik takip yalnızca aynı etki alanı içinde gezinir."
+  },
+  "popup_security_warning_text_3_prefix": {
+    "message": "Otomatik takip yalnızca "
+  },
+  "popup_security_warning_text_3_suffix": {
+    "message": " içinde gezinir."
   },
   "popup_button_disagree": { "message": "Reddet" },
   "popup_button_agree": { "message": "Kabul Et" }

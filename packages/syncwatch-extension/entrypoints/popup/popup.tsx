@@ -46,6 +46,7 @@ function Popup() {
   const [autoFollow, setAutoFollow] = useState(false);
   const [broadcastMode, setBroadcastMode] = useState(false);
   const [showSecurityWarning, setShowSecurityWarning] = useState(false);
+  const [activeTabHost, setActiveTabHost] = useState<string | undefined>(undefined);
 
   const isConnected = connectButtonValue === browser.i18n.getMessage('popup_button_disconnect');
 
@@ -115,6 +116,23 @@ function Popup() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!showSecurityWarning) return;
+    setActiveTabHost(undefined);
+
+    browser.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
+      const tab = tabs[0];
+      const url = tab?.url;
+      if (!url) return;
+      try {
+        const parsed = new URL(url);
+        setActiveTabHost(parsed.host);
+      } catch {
+        // Ignore invalid URLs (e.g. browser internal pages)
+      }
+    });
+  }, [showSecurityWarning]);
+
   const handleAutoFollowChange = (checked: boolean) => {
     if (checked) {
       setShowSecurityWarning(true);
@@ -135,12 +153,21 @@ function Popup() {
         <Flex justifyContent={'center'}>
           <Text variant="header-2">{browser.i18n.getMessage('popup_security_warning_title')}</Text>
         </Flex>
-        <Text variant="body-1">
-          {browser.i18n.getMessage('popup_security_warning_text_1')}
-          <br />
-          <br />
-          {browser.i18n.getMessage('popup_security_warning_text_2')}
-        </Text>
+        <Flex direction="column" gap={2}>
+          <Text variant="body-1">{browser.i18n.getMessage('popup_security_warning_text_1')}</Text>
+          <Text variant="body-1">{browser.i18n.getMessage('popup_security_warning_text_2')}</Text>
+          <Text variant="body-1">
+            {activeTabHost ? (
+              <>
+                {browser.i18n.getMessage('popup_security_warning_text_3_prefix' as any)}
+                <span style={{ color: 'var(--g-color-text-brand)' }}>{activeTabHost}</span>
+                {browser.i18n.getMessage('popup_security_warning_text_3_suffix' as any)}
+              </>
+            ) : (
+              browser.i18n.getMessage('popup_security_warning_text_3' as any)
+            )}
+          </Text>
+        </Flex>
         <Flex gap={2} justifyContent="space-between">
           <Button width="max" view="outlined" onClick={() => setShowSecurityWarning(false)}>
             {browser.i18n.getMessage('popup_button_disagree')}

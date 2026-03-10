@@ -66,6 +66,17 @@ export default defineBackground(() => {
     return !!tab.url && !!tab.title && !!tab.id;
   }
 
+  /** Returns true if both URLs have the same origin (protocol + host). Invalid URLs return false. */
+  function isSameOrigin(currentUrl: string, targetUrl: string): boolean {
+    try {
+      const a = new URL(currentUrl);
+      const b = new URL(targetUrl);
+      return a.origin === b.origin;
+    } catch {
+      return false;
+    }
+  }
+
   function toInitialState() {
     list = [];
     syncTab = undefined;
@@ -297,7 +308,7 @@ export default defineBackground(() => {
 
     socket.on('share', (msg) => {
       if (!share || share.url !== msg.url) {
-        if (autoFollow) {
+        if (autoFollow && isSameOrigin(syncTab?.url || '', msg.url)) {
           if (syncTab) {
             browser.tabs.update(syncTab.id, { url: msg.url });
           } else {

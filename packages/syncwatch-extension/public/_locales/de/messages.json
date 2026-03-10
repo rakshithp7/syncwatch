@@ -60,7 +60,16 @@
     "message": "Wenn Sie „URLs folgen“ aktivieren, kann der Raum Ihre Browser-Navigation steuern."
   },
   "popup_security_warning_text_2": {
-    "message": "Aktivieren Sie dies nur in vertrauenswürdigen Räumen. Böswillige Nutzer könnten Sie auf Phishing- oder Malware-Seiten umleiten."
+    "message": "Aktivieren Sie dies nur in vertrauenswürdigen Räumen."
+  },
+  "popup_security_warning_text_3": {
+    "message": "Auto-follow navigiert nur innerhalb derselben Domain."
+  },
+  "popup_security_warning_text_3_prefix": {
+    "message": "Auto-follow navigiert nur innerhalb von "
+  },
+  "popup_security_warning_text_3_suffix": {
+    "message": "."
   },
   "popup_button_disagree": { "message": "Ablehnen" },
   "popup_button_agree": { "message": "Zustimmen" }
